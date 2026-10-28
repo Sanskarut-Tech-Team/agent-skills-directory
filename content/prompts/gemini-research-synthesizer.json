@@ -1,0 +1,18 @@
+{
+  "id": "gemini-research-synthesizer",
+  "title": "Google Gemini 2.0 Academic Literature Review Synthesizer",
+  "targetAI": [
+    "Gemini",
+    "Claude"
+  ],
+  "promptText": "Synthesize the findings of these academic papers on {{TOPIC}}:\n\n{{ABSTRACTS_OR_FULL_TEXTS}}\n\nCreate a comprehensive literature review:\n1. Executive Summary & Consensus Findings.\n2. Contradictions & Divergent Hypotheses between authors.\n3. Methodological Comparisons (Sample sizes, datasets, benchmarks).\n4. Unresolved Research Questions and Future Exploration Vectors.\n5. Formatted Markdown table comparing key empirical metrics.",
+  "useCase": "Research & Synthesis",
+  "copyable": true,
+  "author": "Sanskarut Tech Team",
+  "tags": [
+    "Gemini 2.0",
+    "Research",
+    "Synthesis",
+    "Academic"
+  ]
+}

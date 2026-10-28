@@ -1,0 +1,18 @@
+{
+  "id": "claude-artifacts-architect",
+  "title": "Claude 3.5 Sonnet Full-Stack Component Architect",
+  "targetAI": [
+    "Claude",
+    "Cursor"
+  ],
+  "promptText": "You are creating a production-ready React component in TypeScript with Tailwind CSS for:\n\nComponent Goal: {{COMPONENT_DESCRIPTION}}\n\nRequirements:\n- Clean Light Mode styling: pristine whites (#FFFFFF), slate-50 backgrounds, slate-200 hairline borders, slate-900 headings, and modern blue (#2563EB) accents.\n- Full keyboard accessibility (ARIA attributes, tabIndex, Enter/Space/Escape triggers).\n- Smooth Framer Motion transitions with spring physics.\n- Responsive across mobile (375px), tablet (768px), and desktop (1280px).\n- Provide complete code in a single self-contained artifact with mock data and zero omitted comments.",
+  "useCase": "Code Generation",
+  "copyable": true,
+  "author": "Sanskar Bandgar",
+  "tags": [
+    "React 19",
+    "Claude 3.5",
+    "Tailwind CSS",
+    "Components"
+  ]
+}

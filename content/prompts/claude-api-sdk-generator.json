@@ -1,0 +1,10 @@
+{
+  "id": "claude-api-sdk-generator",
+  "title": "Claude 3.5 Type-Safe TypeScript SDK Generator",
+  "targetAI": [
+    "Claude"
+  ],
+  "promptText": "Convert the following OpenAPI / Swagger specification into a production-grade, zero-dependency isomorphic TypeScript SDK:\n\n```json\n{{OPENAPI_SPEC}}\n```\n\nFeatures required:\n1. Type-safe request and response interfaces for every endpoint.\n2. Fetch-based client with custom headers, authorization Bearer token injection, and automatic JSON deserialization.\n3. Custom error classes with HTTP status codes and API error messages.\n4. Full JSDoc comments explaining parameters, return types, and example usage for each method.",
+  "useCase": "Code Generation",
+  "copyable": true
+}

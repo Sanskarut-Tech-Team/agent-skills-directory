@@ -1,0 +1,17 @@
+{
+  "id": "chatgpt-o1-refactor",
+  "title": "ChatGPT o1/4o Legacy Monolith Refactoring & SOLID Extractor",
+  "targetAI": [
+    "ChatGPT"
+  ],
+  "promptText": "Act as a Staff Software Engineer. Refactor this legacy monolithic function/class:\n\n```typescript\n{{LEGACY_CODE}}\n```\n\nRefactoring objectives:\n1. Single Responsibility Principle (SRP): Deconstruct monolithic functions into isolated, single-purpose pure functions.\n2. Dependency Inversion: Inject external side effects (database, network, file system) via typed interfaces.\n3. Error Boundary: Replace opaque try/catch blocks with structured Result<T, E> types.\n4. Write zero regressions: ensure 100% feature parity with clean explanatory comments.",
+  "useCase": "Refactoring & Architecture",
+  "copyable": true,
+  "author": "Sanskar Bandgar",
+  "tags": [
+    "ChatGPT",
+    "Refactoring",
+    "SOLID",
+    "Architecture"
+  ]
+}

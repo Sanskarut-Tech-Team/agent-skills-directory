@@ -1,0 +1,17 @@
+{
+  "id": "midjourney-enterprise-mockup",
+  "title": "Midjourney v6 Minimalist Enterprise Tech Product 3D Hero",
+  "targetAI": [
+    "Midjourney"
+  ],
+  "promptText": "/imagine prompt: Clean ultra-modern 3D isometric mockup of an enterprise AI SaaS dashboard floating gently on a pristine pure white studio background, subtle soft blue glowing glass layers, frosted acrylic materials, crisp slate-900 typography cards, subtle blue #2563EB accent laser lines, studio softbox lighting, high-end tech commercial photography, hyper-detailed, clean Google Chrome aesthetic, minimal, 8k resolution, minimalist modern --ar 16:9 --style raw --v 6.1",
+  "useCase": "Image Generation",
+  "copyable": true,
+  "author": "Sanskar Bandgar",
+  "tags": [
+    "Midjourney",
+    "3D Renders",
+    "Minimalist",
+    "Design"
+  ]
+}
