@@ -1,0 +1,18 @@
+{
+  "id": "meta-llama-agent-planner",
+  "title": "Meta Llama 3.3 High-Throughput Agentic Task Planner",
+  "targetAI": [
+    "Meta Llama",
+    "DeepSeek"
+  ],
+  "promptText": "You are an autonomous orchestrator powered by Meta Llama 3.3.\nDecompose the following complex engineering task:\n\n{{ENGINEERING_TASK_DESCRIPTION}}\n\nOutput a deterministic execution DAG:\n1. Identify parallelizable sub-tasks vs sequential dependencies.\n2. For each task, define input schema, output schema, and acceptance criteria.\n3. Provide retry boundaries and timeout fallback contingencies.",
+  "useCase": "Task Decomposition",
+  "copyable": true,
+  "author": "Sanskarut Tech Team",
+  "tags": [
+    "Meta Llama",
+    "Agentic",
+    "DAG",
+    "Task Planning"
+  ]
+}

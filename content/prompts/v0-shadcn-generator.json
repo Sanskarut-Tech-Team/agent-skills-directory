@@ -1,0 +1,18 @@
+{
+  "id": "v0-shadcn-generator",
+  "title": "v0 Generative UI Spec for High-Density Data Tables",
+  "targetAI": [
+    "v0",
+    "Claude"
+  ],
+  "promptText": "Generate a high-density, accessible enterprise data table component in v0:\nSpecs:\n- Column sorting, pagination, multi-row selection, inline editing.\n- Minimalist Chrome light theme with hairline border separators and subtle row hover highlights.\n- Implement Shadcn UI primitives and Radix headless controls.\nFeature description: {{TABLE_DATA_SPEC}}",
+  "useCase": "UI/UX & Transpilation",
+  "copyable": true,
+  "author": "Sanskar Bandgar",
+  "tags": [
+    "v0",
+    "Generative UI",
+    "Shadcn",
+    "Data Tables"
+  ]
+}

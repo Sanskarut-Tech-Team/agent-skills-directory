@@ -1,0 +1,17 @@
+{
+  "id": "gemini-multimodal-spec",
+  "title": "Google Gemini 2.0 UI Transpiler & Specification Generator",
+  "targetAI": [
+    "Gemini"
+  ],
+  "promptText": "Analyze this UI screenshot / design specification:\n\n{{ATTACH_IMAGE_OR_DESIGN_DESCRIPTION}}\n\nGenerate:\n1. DESIGN SYSTEM BREAKDOWN: Exact color palette (hex codes), typography scales, spacing tokens, and border radii.\n2. COMPONENT TREE HIERARCHY: Break down into atomic components (Header, MetricCards, ActionTable, Modal).\n3. TAILWIND CSS IMPLEMENTATION: Write pixel-perfect React JSX using Tailwind CSS utility classes matching the layout visual weight exactly.\n4. INTERACTION SPEC: Detail hover states, loading skeletons, and empty state behaviors.",
+  "useCase": "UI/UX & Transpilation",
+  "copyable": true,
+  "author": "Sanskarut Tech Team",
+  "tags": [
+    "Gemini 2.0",
+    "Multimodal",
+    "Tailwind CSS",
+    "UI Transpilation"
+  ]
+}

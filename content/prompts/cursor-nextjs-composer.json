@@ -1,0 +1,19 @@
+{
+  "id": "cursor-nextjs-composer",
+  "title": "Cursor AI Composer Mega-Prompt for Next.js 16 App Router",
+  "targetAI": [
+    "Cursor",
+    "Claude",
+    "ChatGPT"
+  ],
+  "promptText": "You are the lead developer working in Cursor Composer on a Next.js 16 App Router project with Tailwind CSS 4.\nRules for this prompt:\n- Always check existing project files before creating new ones.\n- Keep layout components in src/components/ and page routes in src/app/.\n- Do NOT use 'any' in TypeScript; strictly define all props and state.\n- Ensure light-theme fidelity: clean white backgrounds (#FFFFFF), subtle slate fills (#F8FAFC), crisp hairline borders (#E2E8F0), and blue accents (#2563EB).\n- Implement feature: {{FEATURE_DESCRIPTION}}",
+  "useCase": "Code Generation",
+  "copyable": true,
+  "author": "Sanskar Bandgar",
+  "tags": [
+    "Cursor",
+    "Next.js 16",
+    "Composer",
+    "TypeScript"
+  ]
+}

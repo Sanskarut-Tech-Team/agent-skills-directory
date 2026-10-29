@@ -1,0 +1,17 @@
+{
+  "id": "deepseek-sql-performance",
+  "title": "DeepSeek SQL Performance & Subquery Optimizer",
+  "targetAI": [
+    "DeepSeek"
+  ],
+  "promptText": "Optimize this PostgreSQL query for maximum throughput and minimal disk I/O:\n\n```sql\n{{SQL_QUERY}}\n```\n\nTable metadata:\n{{TABLE_SCHEMAS_AND_INDEXES}}\n\nRequirements:\n1. Explain the performance bottleneck in the original query (e.g. full table scan, Cartesian product, unindexed join).\n2. Rewrite using modern CTEs, WINDOW functions, or indexed covering joins.\n3. Recommend specific CREATE INDEX CONCURRENTLY statements with justification.",
+  "useCase": "Data & Systems",
+  "copyable": true,
+  "author": "Sanskar Bandgar",
+  "tags": [
+    "DeepSeek",
+    "SQL",
+    "Database",
+    "Performance"
+  ]
+}

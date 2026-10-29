@@ -1,0 +1,18 @@
+{
+  "id": "deepseek-r1-root-cause",
+  "title": "DeepSeek R1 Root-Cause Forensic Debugger",
+  "targetAI": [
+    "DeepSeek",
+    "ChatGPT"
+  ],
+  "promptText": "Analyze the following stack trace and code snippet using step-by-step deep reasoning:\n\n```typescript\n{{ERROR_LOG_AND_CODE}}\n```\n\nConduct your diagnosis in this sequence:\n1. Trace the exact call hierarchy leading to the failure point.\n2. Identify the root causality (e.g. race condition, unhandled null reference, memory leak, or asynchronous promise rejection).\n3. Detail why the failure manifested under these runtime circumstances.\n4. Provide a surgical, minimal fix with before-and-after diffs.\n5. Provide a regression unit test to verify the fix permanently.",
+  "useCase": "Debugging & Diagnostics",
+  "copyable": true,
+  "author": "Sanskar Bandgar",
+  "tags": [
+    "Debugging",
+    "DeepSeek",
+    "TypeScript",
+    "Diagnostics"
+  ]
+}

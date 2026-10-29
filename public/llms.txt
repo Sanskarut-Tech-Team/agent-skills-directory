@@ -1,0 +1,39 @@
+# Apex AI Skills
+
+> A curated, production-grade library of deterministic AI skill specifications and prompt engineering blueprints for frontier LLMs (ChatGPT, Claude 3.5, Google Gemini, DeepSeek, Meta Llama, Midjourney, Cursor, and v0).
+
+- Website: https://apex-ai-skills.vercel.app
+- Skills Directory: https://apex-ai-skills.vercel.app/skills
+- Prompts Catalog: https://apex-ai-skills.vercel.app/prompts
+- Contribution: https://apex-ai-skills.vercel.app/contribute
+- Contact: https://apex-ai-skills.vercel.app/contact
+- Full Prompts & Blueprints: https://apex-ai-skills.vercel.app/llms-full.txt
+
+## AI Skills
+- Next.js 16 App Router & React 19 Architecture System: https://apex-ai-skills.vercel.app/skills?q=react-nextjs-architect
+- Autonomous Agentic Tool Calling & Reasoning Protocol: https://apex-ai-skills.vercel.app/skills?q=agentic-tool-orchestrator
+- Full-Stack Security & Vulnerability Penetration Auditor: https://apex-ai-skills.vercel.app/skills?q=enterprise-security-auditor
+- PostgreSQL & Prisma Query Performance Optimizer: https://apex-ai-skills.vercel.app/skills?q=database-sql-optimizer
+- Enterprise Minimalist UI/UX Critic & Style Enforcer: https://apex-ai-skills.vercel.app/skills?q=hallmark-clean-ui-critic
+- Resilient REST & gRPC API Contract Architect: https://apex-ai-skills.vercel.app/skills?q=api-microservices-designer
+- Playwright & Vitest Production Test Suite Generator: https://apex-ai-skills.vercel.app/skills?q=automated-e2e-test-generator
+- AWS Zero-Trust Infrastructure as Code (Terraform): https://apex-ai-skills.vercel.app/skills?q=cloud-infrastructure-terraform
+- Multi-Perspective Logical Proof & Algorithmic Reasoner: https://apex-ai-skills.vercel.app/skills?q=deep-reasoning-synthesizer
+- Developer-First SaaS Technical Copywriting & Positioning: https://apex-ai-skills.vercel.app/skills?q=high-conversion-technical-copywriter
+
+## Production Prompts
+- DeepSeek R1 Root-Cause Forensic Debugger: https://apex-ai-skills.vercel.app/prompts?q=deepseek-r1-root-cause
+- Claude 3.5 Sonnet Full-Stack Component Architect: https://apex-ai-skills.vercel.app/prompts?q=claude-artifacts-architect
+- Google Gemini 2.0 UI Transpiler & Specification Generator: https://apex-ai-skills.vercel.app/prompts?q=gemini-multimodal-spec
+- ChatGPT o1/4o Legacy Monolith Refactoring & SOLID Extractor: https://apex-ai-skills.vercel.app/prompts?q=chatgpt-o1-refactor
+- Meta Llama 3.3 High-Throughput Agentic Task Planner: https://apex-ai-skills.vercel.app/prompts?q=meta-llama-agent-planner
+- Midjourney v6 Minimalist Enterprise Tech Product 3D Hero: https://apex-ai-skills.vercel.app/prompts?q=midjourney-enterprise-mockup
+- Cursor AI Composer Mega-Prompt for Next.js 16 App Router: https://apex-ai-skills.vercel.app/prompts?q=cursor-nextjs-composer
+- Zero-Hallucination Regulatory & Compliance Document Analyzer: https://apex-ai-skills.vercel.app/prompts?q=claude-zero-hallucination-audit
+- DeepSeek SQL Performance & Subquery Optimizer: https://apex-ai-skills.vercel.app/prompts?q=deepseek-sql-performance
+- Google Gemini 2.0 Academic Literature Review Synthesizer: https://apex-ai-skills.vercel.app/prompts?q=gemini-research-synthesizer
+- v0 Generative UI Spec for High-Density Data Tables: https://apex-ai-skills.vercel.app/prompts?q=v0-shadcn-generator
+- ChatGPT STRIDE Security Threat Modeling Matrix: https://apex-ai-skills.vercel.app/prompts?q=chatgpt-security-threat-model
+
+## Quality Standards
+All prompts and skills enforce zero-fluff, deterministic yield, and strict type verification.

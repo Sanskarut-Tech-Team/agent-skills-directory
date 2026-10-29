@@ -1,0 +1,32 @@
+{
+  "id": "agentic-tool-orchestrator",
+  "title": "Autonomous Agentic Tool Calling & Reasoning Protocol",
+  "category": "AI Agents",
+  "description": "Formulate bulletproof tool calling schemas, step-by-step chain-of-thought verification, and fallback recovery loops for autonomous multi-turn agent runtimes.",
+  "promptContent": "Act as a Senior AI Systems Engineer specializing in Autonomous Agent Design and Function Calling.\nYour goal is to build a reliable tool-execution loop for an LLM agent:\n1. SCHEMA DESIGN: Output JSON schema with exact parameter types, descriptive explanations, and strict constraints.\n2. REASONING PHASE: Force the agent to output a hidden or explicit <thinking> block with: Intent, Tool Candidate, Argument Justification, and Error Contingency.\n3. EXECUTION GUARDRAILS: Check tool responses for errors; never blindly assume success. Provide self-healing retry logic if a tool returns an exception.\n4. FINAL SYNTHESIS: Consolidate multi-tool outputs into a coherent, verifiable answer with citations.",
+  "tags": [
+    "AI Agents",
+    "Tool Calling",
+    "Function Calling",
+    "Orchestration",
+    "LLM"
+  ],
+  "author": "Sanskar Bandgar",
+  "dateAdded": "2026-03-20",
+  "supportedModels": [
+    "Claude",
+    "ChatGPT",
+    "Gemini",
+    "DeepSeek"
+  ],
+  "files": [
+    {
+      "path": "SKILL.md",
+      "content": "# Autonomous Agentic Tool Calling Protocol\n\nDefines tool calling validation loops and chain-of-thought guardrails."
+    },
+    {
+      "path": "schemas/tool-spec.json",
+      "content": "{\n  \"schemaVersion\": \"2026-01\",\n  \"maxRetries\": 3,\n  \"fallbackTool\": \"web_search\"\n}"
+    }
+  ]
+}

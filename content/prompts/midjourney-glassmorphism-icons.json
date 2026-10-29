@@ -1,0 +1,10 @@
+{
+  "id": "midjourney-glassmorphism-icons",
+  "title": "Midjourney v6 Frosted Glass Modern App Icon Suite",
+  "targetAI": [
+    "Midjourney"
+  ],
+  "promptText": "/imagine prompt: Minimalist modern app icon set, 3D smooth rounded frosted glass cubes with vibrant blue #2563EB core illumination, clean white backdrop, subtle hairline refraction edges, high elegance, Apple and Google design language fusion, raytraced subsurface scattering, clean aesthetic, studio lighting, hyper-detailed --ar 1:1 --v 6.1 --style raw",
+  "useCase": "Image Generation",
+  "copyable": true
+}

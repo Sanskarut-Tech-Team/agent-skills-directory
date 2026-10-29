@@ -1,0 +1,18 @@
+{
+  "id": "chatgpt-security-threat-model",
+  "title": "ChatGPT STRIDE Security Threat Modeling Matrix",
+  "targetAI": [
+    "ChatGPT",
+    "DeepSeek"
+  ],
+  "promptText": "Perform a STRIDE threat model analysis for the following application architecture:\n\nSystem Architecture:\n{{SYSTEM_ARCHITECTURE_DESCRIPTION}}\n\nBreakdown:\n- Spoofing: Identity verification vulnerabilities.\n- Tampering: Data integrity and payload tampering risks.\n- Repudiation: Audit log gaps and non-traceable transactions.\n- Information Disclosure: Data exfiltration vectors and encryption at rest/in transit.\n- Denial of Service: Resource exhaustion and DDoS vulnerabilities.\n- Elevation of Privilege: Authorization bypasses and RBAC misconfigurations.\nProvide actionable countermeasures for each category.",
+  "useCase": "Security & Audit",
+  "copyable": true,
+  "author": "Sanskarut Tech Team",
+  "tags": [
+    "ChatGPT",
+    "STRIDE",
+    "Security",
+    "Threat Model"
+  ]
+}
