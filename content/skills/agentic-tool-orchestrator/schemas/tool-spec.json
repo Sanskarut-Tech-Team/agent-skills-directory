@@ -1,5 +1,0 @@
-{
-  "schemaVersion": "2026-01",
-  "maxRetries": 3,
-  "fallbackTool": "web_search"
-}

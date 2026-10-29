@@ -1,0 +1,53 @@
+{
+  "id": "git-commit-and-semantic-pr-drafter",
+  "title": "Git Commit & Semantic PR Drafter",
+  "slug": "git-commit-and-semantic-pr-drafter",
+  "category": "Code & DevOps",
+  "author": "Sanskar Bandgar (@sanskarut)",
+  "stars": 289,
+  "version": "1.2.0",
+  "tags": [
+    "Git",
+    "Pull Request",
+    "DevOps",
+    "Conventional Commits",
+    "CI/CD"
+  ],
+  "summary": "Generates Conventional Commits and structured GitHub PR descriptions directly from staged git diffs.",
+  "compatibility": [
+    "Claude Code",
+    "Cursor",
+    "LangChain",
+    "OpenAI Swarm"
+  ],
+  "parameters": [
+    {
+      "name": "staged_diff",
+      "type": "string",
+      "description": "The staged git diff (e.g. output of git diff --cached)",
+      "required": true,
+      "default": ""
+    },
+    {
+      "name": "issue_ticket",
+      "type": "string",
+      "description": "Associated Jira or GitHub Issue key (e.g., APEX-104)",
+      "required": false,
+      "default": "APEX-104"
+    },
+    {
+      "name": "breaking_changes",
+      "type": "boolean",
+      "description": "Indicates whether this change contains breaking API modifications",
+      "required": false,
+      "default": false
+    }
+  ],
+  "executablePrompt": "<system_instruction>\nYou are an expert Release Engineer & Git Workflow Specialist.\nGiven a staged git diff, analyze all changed files, modified functions, dependencies, and architectural shifts.\nTicket Reference: {{issue_ticket}}\nHas Breaking Changes: {{breaking_changes}}\n\n<instructions>\n1. CONVENTIONAL COMMIT HEADERS:\n   - Produce 3 distinct atomic commit message options following Conventional Commits v1.0.0.\n   - Format: `<type>(<scope>): <short description>`\n   - Allowed Types: `feat`, `fix`, `refactor`, `docs`, `test`, `chore`, `perf`.\n2. PULL REQUEST MARKDOWN DESCRIPTION:\n   - Draft a comprehensive, professional PR description suitable for GitHub/GitLab.\n   - Include Executive Summary, Key Changes Bullet List, Related Issues, Breaking Change Warnings, and Verification Steps.\n</instructions>\n\n<output_schema>\n### Proposed Commit Messages\n1. `type(scope): message`\n2. `type(scope): alternative message`\n3. `type(scope): detailed message`\n\n---\n\n### Pull Request Description\n\n## Summary of Changes\nBrief high-level context of what was changed and why.\n\n## Key Modifications\n- **[Component/Module]**: Bullet point explaining exact refactoring or feature addition.\n\n## Breaking Changes\n{{#if breaking_changes}}\n⚠️ **BREAKING CHANGE**: Describe what APIs changed and migration required.\n{{else}}\nNone.\n{{/if}}\n\n## Related Ticket\n- Resolves: {{issue_ticket}}\n\n## How to Test\n1. Step-by-step verification instructions.\n</output_schema>\n</system_instruction>\n\n<staged_diff>\n{{staged_diff}}\n</staged_diff>",
+  "sampleInput": {
+    "staged_diff": "--- a/src/auth/jwt.ts\n+++ b/src/auth/jwt.ts\n@@ -10,4 +10,12 @@ export function verifyToken(token: string) {\n-  return jwt.verify(token, process.env.JWT_SECRET!);\n+  return jwt.verify(token, process.env.JWT_SECRET!, {\n+    algorithms: ['RS256'],\n+    issuer: 'https://auth.apex.ai'\n+  });\n }",
+    "issue_ticket": "SEC-802",
+    "breaking_changes": false
+  },
+  "sampleOutput": "### Proposed Commit Messages\n1. `fix(auth): enforce RS256 algorithm and issuer validation in JWT verification`\n2. `sec(jwt): mitigate key confusion vulnerability by locking verification to RS256`\n3. `refactor(auth): add explicit issuer check to verifyToken`\n\n---\n\n### Pull Request Description\n\n## Summary of Changes\nHardens JWT signature verification in `src/auth/jwt.ts` by explicitly specifying the allowed signature algorithm (`RS256`) and validating the token issuer against `https://auth.apex.ai`.\n\n## Key Modifications\n- **`src/auth/jwt.ts`**: Updated `verifyToken()` call options to reject symmetric token confusion attempts and unauthorized issuers.\n\n## Breaking Changes\nNone. (Existing valid RS256 tokens issued by `https://auth.apex.ai` remain supported).\n\n## Related Ticket\n- Resolves: SEC-802\n\n## How to Test\n1. Run unit tests: `pnpm test src/auth/jwt.test.ts`\n2. Attempt token verification with HS256 signed token -> verify request is rejected with `JsonWebTokenError`."
+}

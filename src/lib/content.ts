@@ -19,7 +19,13 @@ export async function getAllSkills(): Promise<AISkill[]> {
         if (stat.isDirectory()) {
           const skillJsonPath = path.join(itemPath, 'skill.json');
           if (fs.existsSync(skillJsonPath)) {
-            const data: AISkill = JSON.parse(fs.readFileSync(skillJsonPath, 'utf-8'));
+            const data: any = JSON.parse(fs.readFileSync(skillJsonPath, 'utf-8'));
+
+            // Map fields for full backward compatibility
+            data.description = data.summary || data.description || '';
+            data.promptContent = data.executablePrompt || data.promptContent || '';
+            data.dateAdded = data.dateAdded || '2026-04-20';
+            data.supportedModels = data.compatibility || data.supportedModels || ['Claude Code', 'Cursor'];
 
             // Check if there are other files in the folder
             const readDirRecursive = (dir: string, base = ''): AISkillFile[] => {
@@ -46,25 +52,19 @@ export async function getAllSkills(): Promise<AISkill[]> {
               data.files = diskFiles;
             }
 
-            if (!data.supportedModels || data.supportedModels.length === 0) {
-              data.supportedModels = ['Claude', 'ChatGPT', 'Cursor'];
-            }
-
-            skills.push(data);
+            skills.push(data as AISkill);
           }
         } else if (item.endsWith('.json')) {
-          // Fallback for top-level JSON file
-          const data: AISkill = JSON.parse(fs.readFileSync(itemPath, 'utf-8'));
-          if (!data.supportedModels) {
-            data.supportedModels = ['Claude', 'ChatGPT', 'DeepSeek'];
-          }
-          skills.push(data);
+          const data: any = JSON.parse(fs.readFileSync(itemPath, 'utf-8'));
+          data.description = data.summary || data.description || '';
+          data.promptContent = data.executablePrompt || data.promptContent || '';
+          data.dateAdded = data.dateAdded || '2026-04-20';
+          data.supportedModels = data.compatibility || data.supportedModels || ['Claude Code', 'Cursor'];
+          skills.push(data as AISkill);
         }
       }
 
-      return skills.sort(
-        (a, b) => new Date(b.dateAdded).getTime() - new Date(a.dateAdded).getTime()
-      );
+      return skills.sort((a, b) => (b.stars || 0) - (a.stars || 0));
     }
   } catch (error) {
     console.error('Error reading skills from content/skills:', error);
@@ -74,7 +74,7 @@ export async function getAllSkills(): Promise<AISkill[]> {
 
 export async function getSkillById(id: string): Promise<AISkill | null> {
   const skills = await getAllSkills();
-  return skills.find((s) => s.id === id) || null;
+  return skills.find((s) => s.id === id || s.slug === id) || null;
 }
 
 export async function getAllPrompts(): Promise<AIPrompt[]> {
