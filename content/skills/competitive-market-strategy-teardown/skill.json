@@ -1,0 +1,59 @@
+{
+  "id": "competitive-market-strategy-teardown",
+  "title": "Competitive & Market Strategy Teardown",
+  "slug": "competitive-market-strategy-teardown",
+  "category": "Writing & Strategy",
+  "author": "Sanskar Bandgar (@sanskarut)",
+  "stars": 215,
+  "version": "1.0.0",
+  "tags": [
+    "Strategy",
+    "Market Analysis",
+    "Competitive Teardown",
+    "SaaS",
+    "Product"
+  ],
+  "summary": "Evaluates tech products against competitors using moat analysis, pricing models, and feature gap matrices.",
+  "compatibility": [
+    "Claude Code",
+    "Cursor",
+    "OpenAI Swarm",
+    "LangChain"
+  ],
+  "parameters": [
+    {
+      "name": "target_product",
+      "type": "string",
+      "description": "Name and description of target product being analyzed",
+      "required": true,
+      "default": ""
+    },
+    {
+      "name": "primary_competitors",
+      "type": "string",
+      "description": "Comma-separated list of top competitors",
+      "required": true,
+      "default": ""
+    },
+    {
+      "name": "target_market_segment",
+      "type": "select",
+      "description": "Primary audience focus",
+      "required": true,
+      "options": [
+        "Developer Tooling / B2D",
+        "Enterprise SaaS",
+        "Consumer Tech",
+        "Fintech / Insurtech"
+      ],
+      "default": "Developer Tooling / B2D"
+    }
+  ],
+  "executablePrompt": "<system_instruction>\nYou are a Principal Product Strategist & Venture Analyst.\nPerform a rigorous market teardown evaluating {{target_product}} against key competitors: {{primary_competitors}}.\nSegment: {{target_market_segment}}\n\n<analysis_dimensions>\n1. FEATURE MATRIX GAP ANALYSIS:\n   - Construct a granular feature parity table evaluating core technical capabilities.\n2. DEFENSIBILITY & MOAT EVALUATION:\n   - Analyze 7 Powers moats (Network Effects, Switching Costs, Scale Economies, Counter-Positioning, Unique Process, Branding).\n3. PRICING & PACKAGING STRUCTURE:\n   - Compare value metric triggers (per-seat vs usage-based vs tier limits).\n4. STRATEGIC RECOMMENDATIONS:\n   - Identify counter-positioning moves to capture market share.\n</analysis_dimensions>\n\n<output_schema>\n# Strategic Market Teardown: {{target_product}}\n\n## Executive Summary\nHigh-level positioning statement and market landscape posture.\n\n## Feature Parity & Gap Matrix\n| Capability | {{target_product}} | Competitor 1 | Competitor 2 | Advantage |\n|---|---|---|---|---|\n\n## Defensibility Moats (7 Powers Framework)\n- **Switching Costs:** High/Med/Low explanation\n- **Network Effects:** Analysis\n- **Counter-Positioning:** Strategic opportunities\n\n## Pricing & Packaging Analysis\nComparative teardown of monetization levers.\n\n## Actionable Growth Roadmap\n1. Immediate wedge feature opportunity\n2. Enterprise expansion vector\n</output_schema>\n</system_instruction>",
+  "sampleInput": {
+    "target_product": "Apex AI Skills Directory",
+    "primary_competitors": "PromptBase, GitHub Awesome Lists, LangChain Hub",
+    "target_market_segment": "Developer Tooling / B2D"
+  },
+  "sampleOutput": "# Strategic Market Teardown: Apex AI Skills Directory\n\n## Executive Summary\nApex AI Skills Directory positions itself as an enterprise-grade, deterministic AI skill repository for autonomous agent runtimes. Unlike raw prompt repositories that offer unvalidated text snippets, Apex targets engineering teams requiring schema validation, parameter interpolation, and multi-file agent skills.\n\n## Feature Parity & Gap Matrix\n| Capability | Apex AI Skills | PromptBase | LangChain Hub | Advantage |\n|---|---|---|---|---|\n| Dynamic Parameter Schemas | Yes (Typed) | No (Static text) | Partial | Apex (Runtime Type Safety) |\n| Executable Prompt Blueprints | Yes | No | Yes | Tier-1 |\n| Blazing Fast Local Search | Yes | No | No | Apex (Developer UX) |\n| Multi-file Skill Bundles | Yes | No | No | Apex (Agent Ready) |\n\n## Defensibility Moats (7 Powers Framework)\n- **Switching Costs:** High once engineering teams integrate Apex's open-standard skill schema directly into their CI/CD and agent execution runtimes.\n- **Counter-Positioning:** Open-core directory with zero paywalls counter-positions paid marketplaces like PromptBase.\n\n## Actionable Growth Roadmap\n1. Launch CLI tool (`apex add <skill-id>`) to embed skills directly into developer repositories.\n2. Partner with agent frameworks (CrewAI, LangChain, Swarm) for native schema importing."
+}

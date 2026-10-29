@@ -1,0 +1,60 @@
+{
+  "id": "ai-agent-tool-function-spec-generator",
+  "title": "AI Agent Tool/Function Spec Generator",
+  "slug": "ai-agent-tool-function-spec-generator",
+  "category": "Workflow & Automation",
+  "author": "Sanskar Bandgar (@sanskarut)",
+  "stars": 520,
+  "version": "2.0.0",
+  "tags": [
+    "MCP",
+    "Function Calling",
+    "AI Agents",
+    "JSON Schema",
+    "Tools"
+  ],
+  "summary": "Converts natural language tool requirements into strict MCP and OpenAI JSON Schema function specs.",
+  "compatibility": [
+    "Claude Code",
+    "OpenAI Swarm",
+    "LangChain",
+    "CrewAI",
+    "Cursor"
+  ],
+  "parameters": [
+    {
+      "name": "target_format",
+      "type": "select",
+      "description": "Output specification target protocol",
+      "required": true,
+      "options": [
+        "Model Context Protocol (MCP)",
+        "OpenAI JSON Schema",
+        "LangChain StructuredTool",
+        "Anthropic Tool Spec"
+      ],
+      "default": "Model Context Protocol (MCP)"
+    },
+    {
+      "name": "tool_description",
+      "type": "string",
+      "description": "Natural language specification of what the tool does and what input parameters it accepts",
+      "required": true,
+      "default": ""
+    },
+    {
+      "name": "include_error_handling",
+      "type": "boolean",
+      "description": "Include error return codes and boundary validation constraints in description",
+      "required": false,
+      "default": true
+    }
+  ],
+  "executablePrompt": "<system_instruction>\nYou are an AI Systems Architect specializing in Tool Protocol Standardization (Model Context Protocol / OpenAI Tool Calling).\nYour objective is to translate natural language tool capabilities into zero-ambiguity function schemas.\nTarget Format: {{target_format}}\nInclude Error Guardrails: {{include_error_handling}}\n\n<design_rules>\n1. Strict Type Definitions: All parameters must specify exact JSON Schema types (`string`, `number`, `integer`, `boolean`, `array`, `object`).\n2. Comprehensive Parameter Descriptions: Describe valid ranges, formats, edge-case constraints, and default behaviors.\n3. Strict Required Fields: Explicitly list all required properties. Set `additionalProperties: false` where appropriate.\n4. Model Context Protocol Alignment: Ensure tool name follows snake_case and descriptions guide the LLM when to call the tool.\n</design_rules>\n\n<output_schema>\nOutput a production-grade specification file in valid JSON formatted according to the target standard.\n</output_schema>\n</system_instruction>\n\n<tool_description>\n{{tool_description}}\n</tool_description>",
+  "sampleInput": {
+    "target_format": "Model Context Protocol (MCP)",
+    "tool_description": "A tool that searches internal company vector database for documentation given a query string, optional filter tags, and top_k result count between 1 and 20.",
+    "include_error_handling": true
+  },
+  "sampleOutput": "{\n  \"name\": \"search_internal_docs\",\n  \"description\": \"Searches the internal corporate vector database for relevant documentation articles and technical specifications based on semantic similarity.\",\n  \"inputSchema\": {\n    \"type\": \"object\",\n    \"properties\": {\n      \"query\": {\n        \"type\": \"string\",\n        \"description\": \"The natural language search query or engineering question.\"\n      },\n      \"tags\": {\n        \"type\": \"array\",\n        \"items\": {\n          \"type\": \"string\"\n        },\n        \"description\": \"Optional list of metadata filter tags (e.g. ['architecture', 'security', 'v2']).\"\n      },\n      \"top_k\": {\n        \"type\": \"integer\",\n        \"description\": \"Maximum number of matching document chunks to return. Must be between 1 and 20.\",\n        \"default\": 5,\n        \"minimum\": 1,\n        \"maximum\": 20\n      }\n    },\n    \"required\": [\n      \"query\"\n    ],\n    \"additionalProperties\": false\n  }\n}"
+}

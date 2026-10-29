@@ -1,0 +1,66 @@
+{
+  "id": "incident-postmortem-rca-synthesizer",
+  "title": "Incident Postmortem & RCA Synthesizer",
+  "slug": "incident-postmortem-rca-synthesizer",
+  "category": "Workflow & Automation",
+  "author": "Sanskar Bandgar (@sanskarut)",
+  "stars": 395,
+  "version": "1.1.0",
+  "tags": [
+    "Postmortem",
+    "RCA",
+    "Sentry",
+    "Site Reliability",
+    "Incident Response"
+  ],
+  "summary": "Synthesizes Slack threads, Sentry logs, and metrics into blameless postmortems with RCA timelines.",
+  "compatibility": [
+    "Claude Code",
+    "Cursor",
+    "OpenAI Swarm",
+    "LangChain"
+  ],
+  "parameters": [
+    {
+      "name": "incident_title",
+      "type": "string",
+      "description": "Name of the outage or service degradation incident",
+      "required": true,
+      "default": ""
+    },
+    {
+      "name": "raw_slack_logs",
+      "type": "string",
+      "description": "Exported Slack chat transcripts or incident channel notes",
+      "required": true,
+      "default": ""
+    },
+    {
+      "name": "sentry_error_logs",
+      "type": "string",
+      "description": "Raw stack traces, Sentry alert payloads, or Datadog log exports",
+      "required": false,
+      "default": ""
+    },
+    {
+      "name": "severity_level",
+      "type": "select",
+      "description": "Assigned incident severity score",
+      "required": true,
+      "options": [
+        "SEV-1 (Critical Outage)",
+        "SEV-2 (Major Degradation)",
+        "SEV-3 (Minor Impact)"
+      ],
+      "default": "SEV-1 (Critical Outage)"
+    }
+  ],
+  "executablePrompt": "<system_instruction>\nYou are a Principal Site Reliability Engineer (SRE) & Incident Commander.\nYour duty is to generate a Blameless Postmortem and Root Cause Analysis (RCA) report from raw incident artifacts.\n\nIncident: {{incident_title}}\nSeverity: {{severity_level}}\n\n<postmortem_principles>\n1. BLAMELESS CULTURE: Focus on system mechanisms, missing guardrails, and missing alerts rather than individual human mistake.\n2. TIMELINE RECONSTRUCTION: Extract exact UTC timestamps from Slack messages and log files to assemble a minute-by-minute timeline (T-0 to Resolution).\n3. FIVE WHYS METHODOLOGY: Perform recursive 5 Whys analysis to uncover systemic root cause.\n4. PREVENTIVE ACTION ITEMS: Assign SMART action items tagged as [Preventive], [Detective], or [Corrective].\n</postmortem_principles>\n\n<output_schema>\n# Blameless Postmortem: {{incident_title}}\n\n**Severity:** {{severity_level}}\n**Date:** [YYYY-MM-DD]\n**Incident Commander:** SRE On-Call\n\n## Executive Summary\nConcise business and customer impact summary (Downtime duration, impacted user percentage, failed requests count).\n\n## Incident Timeline (UTC)\n| Timestamp | Event / Action | Actor/System |\n|---|---|---|\n\n## Root Cause Analysis (5 Whys)\n1. **Why did the outage occur?** ...\n2. **Why?** ...\n3. **Why?** ...\n4. **Why?** ...\n5. **Why (Root Systemic Cause)?** ...\n\n## Action Items & Preventive Measures\n| Action Item | Type | Priority | Owner | Ticket |\n|---|---|---|---|---|\n</output_schema>\n</system_instruction>\n\n<raw_slack_logs>\n{{raw_slack_logs}}\n</raw_slack_logs>\n\n<sentry_error_logs>\n{{sentry_error_logs}}\n</sentry_error_logs>",
+  "sampleInput": {
+    "incident_title": "Payment Gateway Connection Timeout Outage",
+    "raw_slack_logs": "14:02 UTC - @alex: Users reporting HTTP 504 on checkout\n14:05 UTC - @sarah: Datadog shows payment-service p99 latency spiked to 30s\n14:12 UTC - @devin: Found database pool exhausted at 100/100 connections\n14:20 UTC - @sarah: Restarted payment pods, traffic recovering",
+    "sentry_error_logs": "ConnectionPoolTimeoutError: Timeout waiting for connection from pool (max 100)",
+    "severity_level": "SEV-1 (Critical Outage)"
+  },
+  "sampleOutput": "# Blameless Postmortem: Payment Gateway Connection Timeout Outage\n\n**Severity:** SEV-1 (Critical Outage)\n**Date:** 2026-04-15\n**Incident Commander:** SRE On-Call\n\n## Executive Summary\nAt 14:02 UTC, the checkout service experienced a 18-minute SEV-1 outage affecting approximately 32% of active users. Total failed transactions: 1,420. The issue was resolved by restarting payment pods at 14:20 UTC.\n\n## Incident Timeline (UTC)\n| Timestamp | Event / Action | Actor/System |\n|---|---|---|\n| 14:02 UTC | Customer checkout attempts begin returning HTTP 504 Gateway Timeouts | Automated Monitor |\n| 14:05 UTC | SRE on-call paged; Datadog shows payment-service p99 latency at 30,000ms | Sentry / Datadog |\n| 14:12 UTC | Root cause identified: Postgres connection pool maxed out at 100/100 connections | SRE Team |\n| 14:20 UTC | Pods restarted; connection pool cleared; checkout success returns to 100% | SRE Team |\n\n## Root Cause Analysis (5 Whys)\n1. **Why did checkouts return 504 errors?** The payment microservice connection pool timed out waiting for database connections.\n2. **Why was the pool exhausted?** Database connections were held open indefinitely during external Stripe API calls.\n3. **Why were connections held open?** A recent release omitted a HTTP client timeout parameter on external API network calls.\n4. **Why was the missing timeout not caught in staging?** Staging environment mock servers respond instantaneously, masking network hang issues.\n5. **Why (Root Systemic Cause)?** Lack of architectural linting rules requiring explicit timeouts on all outbound HTTP client instances."
+}

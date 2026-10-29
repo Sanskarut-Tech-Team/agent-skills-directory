@@ -1,0 +1,67 @@
+{
+  "id": "database-schema-sql-query-optimizer",
+  "title": "Database Schema & SQL Query Optimizer",
+  "slug": "database-schema-sql-query-optimizer",
+  "category": "Architecture & Data",
+  "author": "Sanskar Bandgar (@sanskarut)",
+  "stars": 418,
+  "version": "2.1.0",
+  "tags": [
+    "PostgreSQL",
+    "SQL",
+    "Database",
+    "Performance",
+    "Indexing"
+  ],
+  "summary": "Analyzes EXPLAIN ANALYZE logs and SQL queries to suggest composite indexes and query rewrites.",
+  "compatibility": [
+    "Claude Code",
+    "Cursor",
+    "LangChain",
+    "OpenAI Swarm"
+  ],
+  "parameters": [
+    {
+      "name": "database_engine",
+      "type": "select",
+      "description": "Database management system engine",
+      "required": true,
+      "options": [
+        "PostgreSQL 16",
+        "MySQL 8.0",
+        "SQLite 3",
+        "ClickHouse"
+      ],
+      "default": "PostgreSQL 16"
+    },
+    {
+      "name": "sql_query",
+      "type": "string",
+      "description": "The raw slow SQL query or ORM query string",
+      "required": true,
+      "default": ""
+    },
+    {
+      "name": "explain_plan",
+      "type": "string",
+      "description": "Optional EXPLAIN (ANALYZE, BUFFERS, FORMAT JSON) query execution log",
+      "required": false,
+      "default": ""
+    },
+    {
+      "name": "table_indexes",
+      "type": "string",
+      "description": "Existing schema DDL or existing index definitions",
+      "required": false,
+      "default": ""
+    }
+  ],
+  "executablePrompt": "<system_instruction>\nYou are a Principal Database Administrator & SQL Performance Tuning Specialist.\nTarget Engine: {{database_engine}}\n\n<optimization_strategy>\n1. EXPLAIN PLAN DECONSTRUCTION:\n   - Identify Sequential Scans on large tables, High Memory Sorts, Nested Loops with high iteration counts, and Hash Join bottlenecks.\n2. COMPOSITE INDEX STRATEGY:\n   - Formulate targeted B-Tree, GIN, or Partial indexes based on equality-first, range-second, and covering index rules (INCLUDE clause where supported).\n3. QUERY LOGIC RESTRUCTURING:\n   - Eliminate N+1 query patterns, replace correlated subqueries with Common Table Expressions (CTEs) or LATERAL joins, and leverage window functions.\n4. MIGRATION DDL & BENCHMARK PREDICTION:\n   - Provide clean, non-blocking DDL (`CREATE INDEX CONCURRENTLY`) and estimated latency/cost reduction percentage.\n</optimization_strategy>\n\n<output_schema>\n## Executive Performance Analysis\n- **Engine:** {{database_engine}}\n- **Primary Bottleneck:** [Sequential Scan / Spill to Disk / N+1 Loop]\n- **Predicted Speedup:** [e.g., 12x (98% reduction in buffer reads)]\n\n### Execution Bottlenecks\nDetail the node-by-node cost driver from EXPLAIN ANALYZE or query structure.\n\n### Recommended DDL Migration\n```sql\n-- Non-blocking index creation statements\n```\n\n### Optimized SQL Query Rewrites\n```sql\n-- Refactored high-performance SQL query\n```\n\n### Architectural Index & Partitioning Advice\n- Explanations for composite index column order and memory optimization.\n</output_schema>\n</system_instruction>\n\n<sql_query>\n{{sql_query}}\n</sql_query>\n\n<explain_plan>\n{{explain_plan}}\n</explain_plan>\n\n<table_indexes>\n{{table_indexes}}\n</table_indexes>",
+  "sampleInput": {
+    "database_engine": "PostgreSQL 16",
+    "sql_query": "SELECT o.id, o.created_at, u.email FROM orders o JOIN users u ON o.user_id = u.id WHERE o.status = 'PENDING' AND o.created_at >= '2026-01-01' ORDER BY o.created_at DESC LIMIT 50;",
+    "explain_plan": "Limit (cost=45210.12..45210.25 rows=50 width=48)\n  -> Sort (cost=45210.12..45800.00 rows=235000 width=48)\n        Sort Key: o.created_at DESC\n        -> Hash Join (cost=1200.00..38900.50 rows=235000 width=48)\n              -> Seq Scan on orders o (cost=0.00..31200.00 rows=235000 width=32)\n                    Filter: ((status = 'PENDING'::text) AND (created_at >= '2026-01-01'::timestamp))",
+    "table_indexes": "CREATE TABLE orders (id uuid PRIMARY KEY, user_id uuid, status text, created_at timestamp);"
+  },
+  "sampleOutput": "## Executive Performance Analysis\n- **Engine:** PostgreSQL 16\n- **Primary Bottleneck:** Full Sequential Scan on `orders` table (`cost=31200.00`) combined with Memory Sort spillage on `created_at`.\n- **Predicted Speedup:** ~45x latency reduction (eliminates sequential scan and in-memory sort).\n\n### Execution Bottlenecks\nThe query planner performs a full table scan on `orders` filtering by `status` and `created_at`. Because no index covers `status` and `created_at` together, PostgreSQL scans all 235,000 rows into memory and runs a dynamic sort.\n\n### Recommended DDL Migration\n```sql\n-- Create composite partial index to satisfy filter + sort order directly\nCREATE INDEX CONCURRENTLY IF NOT EXISTS idx_orders_pending_created\nON orders (status, created_at DESC)\nINCLUDE (user_id)\nWHERE status = 'PENDING';\n```\n\n### Optimized SQL Query Rewrites\n```sql\nSELECT o.id, o.created_at, u.email\nFROM orders o\nJOIN users u ON o.user_id = u.id\nWHERE o.status = 'PENDING'\n  AND o.created_at >= '2026-01-01'\nORDER BY o.created_at DESC\nLIMIT 50;\n```\n\n### Architectural Index & Partitioning Advice\n- Column order in `idx_orders_pending_created` uses equality first (`status`) and range second (`created_at DESC`).\n- Using `INCLUDE (user_id)` enables Index-Only Scans, eliminating table heap fetches entirely."
+}

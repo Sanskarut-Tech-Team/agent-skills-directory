@@ -1,0 +1,67 @@
+{
+  "id": "api-spec-to-typesafe-sdk-generator",
+  "title": "API Spec to Typesafe SDK Generator",
+  "slug": "api-spec-to-typesafe-sdk-generator",
+  "category": "Architecture & Data",
+  "author": "Sanskar Bandgar (@sanskarut)",
+  "stars": 310,
+  "version": "1.5.0",
+  "tags": [
+    "OpenAPI",
+    "TypeScript",
+    "Zod",
+    "SDK",
+    "API Design"
+  ],
+  "summary": "Transforms OpenAPI/Swagger specs into idiomatic TypeScript clients paired with Zod runtime schemas.",
+  "compatibility": [
+    "Claude Code",
+    "Cursor",
+    "LangChain",
+    "CrewAI"
+  ],
+  "parameters": [
+    {
+      "name": "api_spec_type",
+      "type": "select",
+      "description": "Format of input API specification",
+      "required": true,
+      "options": [
+        "OpenAPI 3.1 JSON/YAML",
+        "Swagger 2.0",
+        "GraphQL Schema",
+        "Raw JSON Response"
+      ],
+      "default": "OpenAPI 3.1 JSON/YAML"
+    },
+    {
+      "name": "spec_content",
+      "type": "string",
+      "description": "Raw API spec payload or schema definition",
+      "required": true,
+      "default": ""
+    },
+    {
+      "name": "sdk_name",
+      "type": "string",
+      "description": "Class name for generated TypeScript SDK client",
+      "required": true,
+      "default": "ApexApiClient"
+    },
+    {
+      "name": "include_zod_validation",
+      "type": "boolean",
+      "description": "Generate Zod validation schemas for request/response runtime validation",
+      "required": false,
+      "default": true
+    }
+  ],
+  "executablePrompt": "<system_instruction>\nYou are a Principal Software Architect specializing in SDK Engineering & Developer Tooling.\nGoal: Transform the provided {{api_spec_type}} specification into a production-ready, type-safe TypeScript SDK client.\nSDK Client Name: {{sdk_name}}\nInclude Zod Runtime Validation: {{include_zod_validation}}\n\n<design_requirements>\n1. TYPESCRIPT GENERATION:\n   - Output clean, idiomatic TypeScript interfaces for all request parameters, headers, and response payloads.\n   - Zero `any` usage; leverage strict generics and Discriminated Unions for error responses.\n2. RUNTIME VALIDATION (Zod):\n   - Export corresponding Zod schemas (e.g. `UserSchema = z.object({ ... })`).\n3. HTTP CLIENT RESILIENCE:\n   - Use native `fetch` with configurable base URL, authorization headers (Bearer token / API key), automatic retry logic, and structured error handling.\n</design_requirements>\n\n<output_schema>\nProvide the generated SDK as a clean, single-file TypeScript module:\n```typescript\nimport { z } from 'zod';\n\n// 1. Zod Schemas\n// 2. Inferred TypeScript Types\n// 3. Custom API Error Class\n// 4. SDK Client Class with typed methods\n```\n</output_schema>\n</system_instruction>\n\n<spec_content>\n{{spec_content}}\n</spec_content>",
+  "sampleInput": {
+    "api_spec_type": "OpenAPI 3.1 JSON/YAML",
+    "spec_content": "paths:\n  /v1/agents:\n    get:\n      summary: List AI Agents\n      parameters:\n        - name: limit\n          in: query\n          schema:\n            type: integer\n            default: 10\n      responses:\n        '200':\n          description: Success\n          content:\n            application/json:\n              schema:\n                type: object\n                properties:\n                  agents:\n                    type: array\n                    items:\n                      type: object\n                      properties:\n                        id:\n                          type: string\n                        name:\n                          type: string\n                        status:\n                          type: string\n                          enum: [active, idle, failed]",
+    "sdk_name": "ApexAgentClient",
+    "include_zod_validation": true
+  },
+  "sampleOutput": "```typescript\nimport { z } from 'zod';\n\n// --- 1. ZOD RUNTIME SCHEMAS ---\nexport const AgentStatusSchema = z.enum(['active', 'idle', 'failed']);\n\nexport const AgentSchema = z.object({\n  id: z.string(),\n  name: z.string(),\n  status: AgentStatusSchema,\n});\n\nexport const ListAgentsResponseSchema = z.object({\n  agents: z.array(AgentSchema),\n});\n\nexport const ListAgentsParamsSchema = z.object({\n  limit: z.number().optional().default(10),\n});\n\n// --- 2. INFERRED TYPESCRIPT TYPES ---\nexport type AgentStatus = z.infer<typeof AgentStatusSchema>;\nexport type Agent = z.infer<typeof AgentSchema>;\nexport type ListAgentsResponse = z.infer<typeof ListAgentsResponseSchema>;\nexport type ListAgentsParams = z.infer<typeof ListAgentsParamsSchema>;\n\n// --- 3. CUSTOM ERROR CLASS ---\nexport class ApexApiError extends Error {\n  constructor(public status: number, message: string, public details?: unknown) {\n    super(message);\n    this.name = 'ApexApiError';\n  }\n}\n\n// --- 4. TYPESAFE SDK CLIENT ---\nexport class ApexAgentClient {\n  private baseUrl: string;\n  private apiKey: string;\n\n  constructor(config: { baseUrl?: string; apiKey: string }) {\n    this.baseUrl = config.baseUrl || 'https://api.apex.ai';\n    this.apiKey = config.apiKey;\n  }\n\n  async listAgents(params?: ListAgentsParams): Promise<ListAgentsResponse> {\n    const parsedParams = ListAgentsParamsSchema.parse(params || {});\n    const query = new URLSearchParams({ limit: String(parsedParams.limit) });\n    const url = `${this.baseUrl}/v1/agents?${query.toString()}`;\n\n    const res = await fetch(url, {\n      method: 'GET',\n      headers: {\n        'Authorization': `Bearer ${this.apiKey}`,\n        'Content-Type': 'application/json',\n      },\n    });\n\n    if (!res.ok) {\n      throw new ApexApiError(res.status, `HTTP error ${res.status}: ${res.statusText}`);\n    }\n\n    const json = await res.json();\n    return ListAgentsResponseSchema.parse(json);\n  }\n}\n```"
+}
