@@ -31,7 +31,7 @@ export async function POST(req: NextRequest) {
     };
 
     // Forward directly to FormSubmit email API
-    const response = await fetch('https://formsubmit.co/ajax/bandgarsanskar19@gmail.com', {
+    const response = await fetch('https://formsubmit.co/bandgarsanskar19@gmail.com', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
